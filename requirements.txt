@@ -1,0 +1,2 @@
+# our only requirement for our test
+apprise

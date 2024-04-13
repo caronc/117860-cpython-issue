@@ -1,0 +1,27 @@
+version: "3.3"
+services:
+  test.py310:
+    build:
+      context: .
+      dockerfile: Dockerfile.py310
+    volumes:
+      - ./:/mytest
+
+  test.py311:
+    build:
+      context: .
+      dockerfile: Dockerfile.py311
+    volumes:
+      - ./:/mytest
+
+  test.py312:
+    build:
+      context: .
+      dockerfile: Dockerfile.py312
+    volumes:
+      - ./:/mytest
+
+# Run a set of tests for just a certain section
+#  docker-compose run --rm test.py310 py.test
+#  docker-compose run --rm test.py311 py.test
+#  docker-compose run --rm test.py312 py.test

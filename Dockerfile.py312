@@ -1,0 +1,20 @@
+# Base
+FROM python:3.12-bookworm
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends build-essential bash && \
+    rm -rf /var/lib/apt/lists/*
+
+# MyTest Setup
+VOLUME ["/mytest"]
+WORKDIR /mytest
+COPY requirements.txt /
+COPY dev-requirements.txt /
+ENV PYTHONPATH /mytest
+ENV PYTHONPYCACHEPREFIX /mytest/__pycache__/py310
+
+RUN pip install --no-cache-dir -r /requirements.txt -r /dev-requirements.txt
+
+RUN addgroup --gid ${USER_GID:-1000} mytest
+RUN adduser --system --uid ${USER_UID:-1000} --ingroup mytest --home /mytest --no-create-home --disabled-password mytest
+
+USER mytest
