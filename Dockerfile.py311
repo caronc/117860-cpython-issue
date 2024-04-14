@@ -5,16 +5,16 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 # MyTest Setup
-VOLUME ["/mytest"]
-WORKDIR /mytest
+VOLUME ["/cpython-117860"]
+WORKDIR /cpython-117860
 COPY requirements.txt /
 COPY dev-requirements.txt /
-ENV PYTHONPATH /mytest
-ENV PYTHONPYCACHEPREFIX /mytest/__pycache__/py310
+ENV PYTHONPATH /cpython-117860
+ENV PYTHONPYCACHEPREFIX /cpython-117860/__pycache__/py310
 
 RUN pip install --no-cache-dir -r /requirements.txt -r /dev-requirements.txt
 
 RUN addgroup --gid ${USER_GID:-1000} mytest
-RUN adduser --system --uid ${USER_UID:-1000} --ingroup mytest --home /mytest --no-create-home --disabled-password mytest
+RUN adduser --system --uid ${USER_UID:-1000} --ingroup mytest --home /cpython-117860 --no-create-home --disabled-password mytest
 
 USER mytest

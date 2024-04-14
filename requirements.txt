@@ -1,2 +1,2 @@
 # our only requirement for our test
-apprise
+apprise == 1.7.6

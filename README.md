@@ -1,14 +1,26 @@
-# Python v3.10 and >3.11 Testing Reflection of `__all__`
+# Python v3.10 and >3.11 Handle Imports Incorrectly
 This repository was created to show that the `__all__` references within a module being mocked are not honored in versions of Python v3.11 and higher.
 
-# Demonstration
+This repository was created to cross reference Issue: [cpython/117860](https://github.com/python/cpython/issues/117860). The failed Git Action tasks associate wit this repository demonstrate the inconsistency in the handling of `unittest.mock.patch()` importing.
+
+All versions of Python (v2.x+, and 3.x) up until v3.10 successfully allow mocking of Apprise notify function as:
+- `unittest.mock.patch('apprise.Apprise.notify')`
+
+However this breaks in the introduction of Python v3.11 (and v3.12 also) requiring that the patch declaration change to:
+- `unittest.mock.patch('apprise.Apprise.Apprise.notify')`
+
+The problem is the new required path is not backwards compatible with previous versions of Python, and the old required path is not compatible with the new.
+
+The original path is the correct one; something changed in Python v3.11 that caused the import rules to be ignored.  _This however is NOT the case for just a regular import of the module (outside of `unittest`)_.  Python v3.11 still allows a `from apprise import Apprise` which is correct (and further pointing out the new inconsitency).
+
+## Demonstration
 First acquire this repository into your own environment:
 ```bash
 # Clone repo
-git clone git@github.com:caronc/mytest.git
+git clone git@github.com:caronc/117860-cpython-issue.git
 
 # Change into our directory
-cd mytest
+cd 117860-cpython-issue
 ```
 
 Now in this directory there are 3 Dockerfiles you can use.
@@ -50,5 +62,5 @@ You can see the `__all__` reference in the Apprise source [here](https://github.
 
 ## Expected Results
 - The `test/test_py11_higher_only.py` is a bad test all around and should fail with all Python versions
-- The `test/test_py10_lower_only.py` should work with all Python versions
+- The `test/test_py10_lower_only.py` _should_ work with all Python versions
 
