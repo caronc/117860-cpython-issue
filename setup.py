@@ -37,6 +37,6 @@ setup(
         'Topic :: Software Development :: Libraries :: Python Modules',
         'Topic :: Software Development :: Libraries :: Application Frameworks',
     ],
-    python_requires='>=3.10',
+    python_requires='>=3.6',
     setup_requires=[],
 )
